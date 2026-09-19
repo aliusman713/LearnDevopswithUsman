@@ -293,3 +293,446 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+/* =====================================================
+   HERO TERMINAL
+===================================================== */
+
+.hero {
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.hero-terminal {
+  width: 430px;
+  background: #0f172a;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.18);
+}
+
+.terminal-header {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 15px;
+  background: #1e293b;
+}
+
+.terminal-header span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #64748b;
+}
+
+.terminal-body {
+  padding: 24px;
+  color: #e2e8f0;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.terminal-command {
+  color: #60a5fa;
+}
+
+.terminal-output {
+  color: #94a3b8;
+}
+
+.terminal-success {
+  color: #4ade80;
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.stats-section {
+  padding: 35px 7%;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.stats-section .stats {
+  max-width: 1150px;
+  margin: auto;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+
+/* =====================================================
+   LEARNING PATH
+===================================================== */
+
+.learning-path-section {
+  padding: 90px 7%;
+  background: #f8fafc;
+}
+
+.learning-path-grid {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.path-card {
+  position: relative;
+  padding: 30px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.path-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.path-card > span {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.path-icon {
+  font-size: 34px;
+  margin: 15px 0;
+}
+
+.path-card h3 {
+  margin: 0 0 10px;
+  font-size: 21px;
+}
+
+.path-card p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   WHY SECTION
+===================================================== */
+
+.why-section {
+  padding: 90px 7%;
+  background: white;
+}
+
+.why-grid {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.why-card {
+  padding: 30px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.why-card > div {
+  font-size: 34px;
+  margin-bottom: 18px;
+}
+
+.why-card h3 {
+  margin: 0 0 10px;
+  font-size: 19px;
+}
+
+.why-card p {
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* =====================================================
+   TECHNOLOGIES
+===================================================== */
+
+.technology-section {
+  padding: 90px 7%;
+  background: #f8fafc;
+}
+
+.technology-grid {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.technology-grid div {
+  padding: 20px 15px;
+  text-align: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #334155;
+  transition: transform 0.2s ease;
+}
+
+.technology-grid div:hover {
+  transform: translateY(-3px);
+}
+
+
+/* =====================================================
+   HOW IT WORKS
+===================================================== */
+
+.how-section {
+  padding: 90px 7%;
+  background: white;
+}
+
+.how-grid {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.how-card {
+  padding: 28px;
+  border-left: 3px solid #2563eb;
+  background: #f8fafc;
+}
+
+.how-card > span {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.how-card h3 {
+  margin: 12px 0 8px;
+}
+
+.how-card p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   CTA
+===================================================== */
+
+.cta-section {
+  padding: 100px 7%;
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      #dbeafe 0,
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #f8fafc
+    );
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: 48px;
+  line-height: 1.1;
+  margin: 15px 0;
+}
+
+.cta-section p {
+  color: #64748b;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.main-footer {
+  padding: 60px 7% 25px;
+  background: #0f172a;
+  color: #cbd5e1;
+  text-align: left;
+}
+
+.footer-content {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 50px;
+}
+
+.footer-brand .logo {
+  color: white;
+}
+
+.footer-brand .logo span {
+  color: #60a5fa;
+}
+
+.footer-brand p {
+  max-width: 300px;
+  color: #94a3b8;
+  line-height: 1.7;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-column h4 {
+  color: white;
+  margin: 0 0 10px;
+}
+
+.footer-column a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.footer-column a:hover {
+  color: #60a5fa;
+}
+
+.footer-bottom {
+  max-width: 1150px;
+  margin: 45px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #334155;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .hero-terminal {
+    width: 360px;
+  }
+
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .technology-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stats-section .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 850px) {
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-terminal {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .learning-path-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .how-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+  }
+
+}
+
+@media (max-width: 550px) {
+
+  .stats-section .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-path-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .technology-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .how-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-terminal {
+    display: none;
+  }
+
+  .cta-section h2 {
+    font-size: 38px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+}
+.course-meta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.course-meta span {
+  padding: 5px 9px;
+  background: #eff6ff;
+  border-radius: 6px;
+  color: #2563eb;
+  font-weight: 600;
+}
