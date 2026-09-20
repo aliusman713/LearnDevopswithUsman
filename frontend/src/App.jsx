@@ -1,6 +1,89 @@
+import { useEffect, useState } from "react";
 import "./App.css";
 
+import { getCourses, enrollInCourse } from "./services/api";
+import { useAuth } from "./context/useAuth";
+
+import Login from "./components/Login";
+import Register from "./components/Register";
+import MyCourses from "./components/MyCourses";
+
+const courseIcons = {
+  AWS: "☁️",
+  Docker: "🐳",
+  Kubernetes: "☸️",
+  Terraform: "🏗️",
+  "CI/CD": "🔄",
+  GitOps: "🚀",
+  DevSecOps: "🔐",
+  "Cloud Migration": "☁️",
+};
+
 function App() {
+  const { user, token, logout } = useAuth();
+
+  const [courses, setCourses] = useState([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+  const [courseError, setCourseError] = useState("");
+
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+
+  const [enrollingCourse, setEnrollingCourse] = useState(null);
+  const [enrollmentMessage, setEnrollmentMessage] = useState("");
+
+  const [myCoursesRefresh, setMyCoursesRefresh] = useState(0);
+
+  useEffect(() => {
+    const loadCourses = async () => {
+      try {
+        const data = await getCourses();
+
+        setCourses(data.courses || []);
+      } catch (error) {
+        console.error("Course loading error:", error);
+        setCourseError(error.message);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+
+    loadCourses();
+  }, []);
+
+  const handleLogin = () => {
+    setShowRegister(false);
+    setShowLogin(true);
+  };
+
+  const handleRegister = () => {
+    setShowLogin(false);
+    setShowRegister(true);
+  };
+
+  const handleEnroll = async (courseId) => {
+    setEnrollmentMessage("");
+
+    if (!user || !token) {
+      setShowLogin(true);
+      return;
+    }
+
+    try {
+      setEnrollingCourse(courseId);
+
+      const data = await enrollInCourse(courseId, token);
+
+      setEnrollmentMessage(data.message);
+
+      setMyCoursesRefresh((value) => value + 1);
+    } catch (error) {
+      setEnrollmentMessage(error.message);
+    } finally {
+      setEnrollingCourse(null);
+    }
+  };
+
   return (
     <div className="app">
       <header className="navbar">
@@ -10,16 +93,50 @@ function App() {
 
         <nav>
           <a href="#courses">Courses</a>
+
           <a href="#about">About</a>
-          <button className="login-button">Login</button>
-          <button className="register-button">Register</button>
+
+          {user ? (
+            <>
+              <a href="#my-courses">My Courses</a>
+
+              <span className="welcome-user">
+                Hi, {user.name}
+              </span>
+
+              <button
+                className="login-button"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="login-button"
+                onClick={handleLogin}
+              >
+                Login
+              </button>
+
+              <button
+                className="register-button"
+                onClick={handleRegister}
+              >
+                Register
+              </button>
+            </>
+          )}
         </nav>
       </header>
 
       <main>
         <section className="hero">
           <div className="hero-content">
-            <p className="hero-label">LEARN • BUILD • DEPLOY</p>
+            <p className="hero-label">
+              LEARN • BUILD • DEPLOY
+            </p>
 
             <h1>
               Master DevOps Through
@@ -32,64 +149,118 @@ function App() {
             </p>
 
             <div className="hero-buttons">
-              <button className="primary-button">Explore Courses</button>
-              <button className="secondary-button">Start Learning</button>
+              <a
+                href="#courses"
+                className="primary-button"
+              >
+                Explore Courses
+              </a>
+
+              <a
+                href="#courses"
+                className="secondary-button"
+              >
+                Start Learning
+              </a>
             </div>
           </div>
         </section>
 
-        <section id="courses" className="courses-section">
+        <section
+          id="courses"
+          className="courses-section"
+        >
           <div className="section-heading">
             <p>WHAT YOU CAN LEARN</p>
+
             <h2>Explore DevOps Courses</h2>
+
             <span>
               Build practical skills across the complete DevOps lifecycle.
             </span>
           </div>
 
-          <div className="course-grid">
-            <CourseCard
-              icon="☁️"
-              title="AWS & Cloud"
-              description="Learn AWS infrastructure, IAM, VPC, EC2, EKS and cloud architecture."
-            />
+          {loadingCourses && (
+            <div className="course-grid">
+              <div className="course-card">
+                <div className="course-icon">
+                  ⏳
+                </div>
 
-            <CourseCard
-              icon="🐳"
-              title="Docker"
-              description="Learn containers, images, networking, volumes and Docker Compose."
-            />
+                <h3>Loading Courses...</h3>
 
-            <CourseCard
-              icon="☸️"
-              title="Kubernetes"
-              description="Master Pods, Deployments, Services, Ingress, ConfigMaps and more."
-            />
+                <p>
+                  Fetching courses from the platform.
+                </p>
+              </div>
+            </div>
+          )}
 
-            <CourseCard
-              icon="🏗️"
-              title="Terraform"
-              description="Build cloud infrastructure using Infrastructure as Code."
-            />
+          {courseError && (
+            <div className="course-grid">
+              <div className="course-card">
+                <div className="course-icon">
+                  ⚠️
+                </div>
 
-            <CourseCard
-              icon="🔄"
-              title="CI/CD"
-              description="Build automated pipelines using GitHub Actions and modern CI/CD practices."
-            />
+                <h3>Unable to Load Courses</h3>
 
-            <CourseCard
-              icon="🚀"
-              title="GitOps & Argo CD"
-              description="Learn GitOps principles and continuous delivery with Argo CD."
-            />
-          </div>
+                <p>{courseError}</p>
+              </div>
+            </div>
+          )}
+
+          {!loadingCourses &&
+            !courseError &&
+            courses.length > 0 && (
+              <div className="course-grid">
+                {courses.map((course) => (
+                  <CourseCard
+                    key={course.id}
+                    icon={
+                      courseIcons[course.category] || "📚"
+                    }
+                    title={course.title}
+                    description={course.description}
+                    level={course.level}
+                    duration={course.duration_hours}
+                    onEnroll={() =>
+                      handleEnroll(course.id)
+                    }
+                    enrolling={
+                      enrollingCourse === course.id
+                    }
+                  />
+                ))}
+              </div>
+            )}
         </section>
 
-        <section id="about" className="about-section">
+        {enrollmentMessage && (
+          <div className="enrollment-message">
+            {enrollmentMessage}
+          </div>
+        )}
+
+        {user && (
+          <MyCourses
+            refreshTrigger={myCoursesRefresh}
+          />
+        )}
+
+        <section
+          id="about"
+          className="about-section"
+        >
           <div>
-            <p className="section-label">ABOUT THE PLATFORM</p>
-            <h2>Learn DevOps by Building.</h2>
+            <p className="section-label">
+              ABOUT THE PLATFORM
+            </p>
+
+            <h2>
+              Learn DevOps by Building.
+            </h2>
+
             <p>
               LearnDevopswithUsman is designed around practical learning.
               Instead of only watching tutorials, you will build applications,
@@ -117,19 +288,61 @@ function App() {
       </main>
 
       <footer>
-        <p>© 2026 LearnDevopswithUsman. Learn. Build. Deploy.</p>
+        <p>
+          © 2026 LearnDevopswithUsman. Learn. Build. Deploy.
+        </p>
       </footer>
+
+      {showLogin && (
+        <Login
+          onClose={() => setShowLogin(false)}
+          onRegister={handleRegister}
+        />
+      )}
+
+      {showRegister && (
+        <Register
+          onClose={() => setShowRegister(false)}
+          onLogin={handleLogin}
+        />
+      )}
     </div>
   );
 }
 
-function CourseCard({ icon, title, description }) {
+function CourseCard({
+  icon,
+  title,
+  description,
+  level,
+  duration,
+  onEnroll,
+  enrolling,
+}) {
   return (
     <article className="course-card">
-      <div className="course-icon">{icon}</div>
+      <div className="course-icon">
+        {icon}
+      </div>
+
       <h3>{title}</h3>
+
       <p>{description}</p>
-      <button>Explore →</button>
+
+      <div className="course-meta">
+        <span>{level}</span>
+
+        {duration && (
+          <span>{duration} hours</span>
+        )}
+      </div>
+
+      <button
+        onClick={onEnroll}
+        disabled={enrolling}
+      >
+        {enrolling ? "Enrolling..." : "Enroll →"}
+      </button>
     </article>
   );
 }
